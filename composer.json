@@ -1,0 +1,39 @@
+{
+  "name": "diazoxide/yii2-config",
+  "description": "Advanced administrator configuration system.",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "extension",
+    "cms",
+    "admin",
+    "administrator",
+    "adminpanel",
+    "panel",
+    "cms",
+    "module"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Diazoxide",
+      "email": "diazoxide@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "*",
+    "yiidoc/yii2-redactor": "dev-master",
+    "bower-asset/font-awesome": "^5.7",
+    "paulzi/yii2-adjacency-list": "^2.2",
+    "yii-dream-team/yii2-upload-behavior": "dev-master",
+    "voskobovich/yii2-many-many-behavior": "^3.0",
+    "kartik-v/yii2-widget-select2": "@dev",
+    "kartik-v/yii2-widget-datetimepicker": "dev-master",
+    "paulzi/yii2-json-behavior": "~1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "diazoxide\\yii2config\\": ""
+    }
+  }
+}
