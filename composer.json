@@ -30,7 +30,7 @@
     "voskobovich/yii2-many-many-behavior": "^3.0",
     "kartik-v/yii2-widget-select2": "@dev",
     "kartik-v/yii2-widget-datetimepicker": "dev-master",
-    "paulzi/yii2-json-behavior": "~1.0.0",
+    "paulzi/yii2-json-behavior": "~1.0.0"
 
   },
   "autoload": {
