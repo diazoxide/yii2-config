@@ -9,4 +9,5 @@
 use diazoxide\yii2config\Module;
 use yii\helpers\Html;
 
-echo Html::tag('h1',Module::t('Config Module'));
+$this->title = Module::t('Config Module');
+echo Html::tag('h1', $this->title);
