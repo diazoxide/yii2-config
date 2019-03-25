@@ -41,10 +41,17 @@ use \diazoxide\yii2config\Module;
             <?php
             if ($model->properties) {
                 foreach ($model->properties as $key => $property) {
-
-                    echo $form->field($model, "config[{$property['name']}]")
-                        ->textInput(['maxlength' => 255])->label($property['name'])
-                        ->hint(Module::t('Default value is: ').var_export($property['value'],true));
+                    $type = $property['type'];
+                    if ($type == "string") {
+                        echo $form->field($model, "config[{$property['name']}]")
+                            ->textInput(['maxlength' => 255])->label($property['name'])
+                            ->hint(Module::t('Default value is: ') . var_export($property['value'], true));
+                    }
+                    if ($type == "boolean") {
+                        echo $form->field($model, "config[{$property['name']}]")
+                            ->dropDownList([false => Module::t('No'), true => Module::t('Yes')])->label($property['name'])
+                            ->hint(Module::t('Default value is: ') . var_export($property['value'], true));
+                    }
                 }
             }
             ?>
