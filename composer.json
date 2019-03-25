@@ -35,5 +35,8 @@
     "psr-4": {
       "diazoxide\\yii2config\\": ""
     }
+  },
+  "extra": {
+    "bootstrap": "diazoxide\\yii2config\\Bootstrap"
   }
 }

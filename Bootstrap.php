@@ -36,7 +36,7 @@ class Bootstrap implements BootstrapInterface
                 'basePath' => __DIR__ . '/messages',
                 'forceTranslation' => true,
                 'fileMap' => [
-                    'diazoxide/yii2config' => 'blog.php',
+                    'diazoxide/yii2config' => 'yii2config.php',
                 ]
             ];
         }
