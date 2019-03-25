@@ -5,13 +5,14 @@
  * Copyright (c) 2018.
  */
 
-namespace diazoxide\blog\controllers\backend;
+namespace diazoxide\yii2config\controllers\backend;
 
 use diazoxide\yii2config\Module;
 use Yii;
 use yii\web\Controller;
 
 /**
+ *
  * @property Module module
  */
 class DefaultController extends Controller

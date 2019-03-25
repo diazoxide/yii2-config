@@ -11,7 +11,7 @@ use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/diazoxide/yii2-config/assets/default';
+    public $sourcePath = '@vendor/diazoxide/yii2-config/assets';
 
     public $baseUrl = '@web';
 

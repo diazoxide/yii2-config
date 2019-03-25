@@ -29,19 +29,19 @@ class Module extends \yii\base\Module
     public $frontendTitleMap = [];
 
     protected $_frontendViewsMap = [
-        'blog/default/index' => 'index',
-        'blog/default/view' => 'view',
-        'blog/default/archive' => 'archive',
-        'blog/default/book' => 'viewBook',
-        'blog/default/chapter' => 'viewChapter',
-        'blog/default/chapter-search' => 'searchBookChapter',
+        'config/default/index' => 'index',
+        'config/default/view' => 'view',
+        'config/default/archive' => 'archive',
+        'config/default/book' => 'viewBook',
+        'config/default/chapter' => 'viewChapter',
+        'config/default/chapter-search' => 'searchBookChapter',
     ];
 
     public $urlManager = 'urlManager';
 
-    public $imgFilePath = '@frontend/web/img/blog';
+    public $imgFilePath = '@frontend/web/img/congig';
 
-    public $imgFileUrl = '/img/blog';
+    public $imgFileUrl = '/img/config';
 
     /** @var ActiveRecord user (for example, 'common\models\User::class' */
     public $userModel;// = \common\models\User::class;
@@ -90,26 +90,6 @@ class Module extends \yii\base\Module
             $this->setViewPath($this->frontendViewPath);
             AppAsset::register(Yii::$app->view);
         }
-
-        $this->registerTranslations();
-
-    }
-
-
-    /**
-     *
-     */
-    protected function registerTranslations()
-    {
-        Yii::$app->i18n->translations['diazoxide/yii2blog'] = [
-            'class' => PhpMessageSource::class,
-            'basePath' => '@vendor/diazoxide/yii2-config/messages',
-            'forceTranslation' => true,
-            'fileMap' => [
-                'diazoxide/yii2config' => 'blog.php',
-            ]
-        ];
-
     }
 
 
