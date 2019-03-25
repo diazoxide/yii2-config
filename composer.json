@@ -24,7 +24,7 @@
     "yiisoft/yii2": "*",
     "yiidoc/yii2-redactor": "dev-master",
     "bower-asset/font-awesome": "^5.7",
-    "npm-asset/jsonform": "*",
+    "bower-asset/jsonform": "^2.1.3",
     "paulzi/yii2-adjacency-list": "^2.2",
     "yii-dream-team/yii2-upload-behavior": "dev-master",
     "voskobovich/yii2-many-many-behavior": "^3.0",
