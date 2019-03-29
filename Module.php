@@ -9,13 +9,22 @@ namespace diazoxide\yii2config;
 
 use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\assets\AppAsset;
+use diazoxide\yii2config\models\Modules;
 use Yii;
 use yii\base\ViewNotFoundException;
 use yii\db\ActiveRecord;
-use yii\i18n\PhpMessageSource;
 
+/**
+ * @property array breadcrumbs
+ */
 class Module extends \yii\base\Module
 {
+    public $app_ids = [
+        'admin' => "Admin",
+        'public' => "Public",
+        'console' => "Console"
+    ];
+
     public $controllerNamespace = 'diazoxide\yii2config\controllers\frontend';
 
     public $backendViewPath = '@vendor/diazoxide/yii2-config/views/backend';
@@ -77,9 +86,7 @@ class Module extends \yii\base\Module
         throw new ViewNotFoundException('The view file does not exist.');
     }
 
-    /**
-     * @throws \yii\base\InvalidConfigException
-     */
+
     public function init()
     {
         parent::init();
@@ -129,15 +136,28 @@ class Module extends \yii\base\Module
         return \Yii::$app->get($this->urlManager)->getHostInfo() . $this->imgFileUrl;
     }
 
-    public static function getNavigation()
+    public function getNavigation()
     {
-        return [
-            ['label' => 'Posts', 'url' => ['/blog/blog-post'], 'visible' => Yii::$app->user->can("BLOG_VIEW_POSTS")],
-            ['label' => 'Categories', 'url' => ['/blog/blog-category'], 'visible' => Yii::$app->user->can("BLOG_VIEW_CATEGORIES")],
-            ['label' => 'Comments', 'url' => ['/blog/blog-comment'], 'visible' => Yii::$app->user->can("BLOG_VIEW_COMMENTS")],
-            ['label' => 'Tags', 'url' => ['/blog/blog-tag'], 'visible' => Yii::$app->user->can("BLOG_VIEW_TAGS")],
-            ['label' => 'Widget Types', 'url' => ['/blog/widget-type/index'], 'visible' => Yii::$app->user->can("BLOG_VIEW_WIDGET_TYPES")],
+        $items = [
+            [
+                'label' => Module::t('Config'),
+                'items' => [
+                    ['label' => Module::t('Modules'), 'url' => ['/'.$this->id.'/modules/index']],
+                ]
+            ]
         ];
+
+        foreach (Modules::findAll(['status' => Modules::STATUS_ENABLED]) as $module) {
+
+            if (Yii::$app->hasModule($module->name)) {
+                $moduleObj = Yii::$app->getModule($module->name);
+                if (method_exists($moduleObj, 'getNavigation')) {
+                    $items = array_merge($items, $moduleObj->getNavigation());
+                }
+            }
+
+        }
+        return $items;
     }
 
 
@@ -151,10 +171,10 @@ class Module extends \yii\base\Module
 
     }
 
-    public function getBreadcrumbs()
+    public static function getBreadcrumbs()
     {
         $result = [];
-        $result[] = ['label' => Module::t('Config'), 'url' => $this->homeUrl];
+        $result[] = ['label' => Module::t('Config'), 'url' => ['default/index']];
         return $result;
     }
 

@@ -13,13 +13,14 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 /** @var \diazoxide\yii2config\models\Modules $model */
-$this->title = Module::t('Update ') . Module::t('Module') . ' ' . $model->name;
-$this->params['breadcrumbs'] = $model->breadcrumbs;
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="blog-post-update">
+$this->title = Module::t('Create ') . Module::t('Option');
 
-    <?= $this->render('_form', [
+$this->params['breadcrumbs'] = $model->breadcrumbs;
+$this->params['breadcrumbs'][] = $this->title
+?>
+<div>
+
+    <?= $this->render('_form_option', [
         'model' => $model,
     ]) ?>
 

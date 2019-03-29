@@ -2,6 +2,7 @@
 
 namespace diazoxide\yii2config;
 
+use diazoxide\yii2config\models\Modules;
 use yii\base\BootstrapInterface;
 use yii\i18n\PhpMessageSource;
 
@@ -29,6 +30,7 @@ class Bootstrap implements BootstrapInterface
 //                '/archives/<id:\d+>' => '/site/old-post',
 //            ]
 //        );
+
         // Add module I18N category.
         if (!isset($app->i18n->translations['diazoxide/yii2config'])) {
             $app->i18n->translations['diazoxide/yii2config'] = [
@@ -39,6 +41,17 @@ class Bootstrap implements BootstrapInterface
                     'diazoxide/yii2config' => 'yii2config.php',
                 ]
             ];
+        }
+
+        $modules = Modules::findAll(['status' => Modules::STATUS_ENABLED]);
+        foreach ($modules as $module) {
+            if (!$app->hasModule($module->name)) {
+                $app->setModule($module->name, $module->getConfig($app->id));
+                if($module->is_bootstrap){
+                    $app->getModule($module->name)->bootstrap($app);
+                }
+
+            }
         }
 //        // Add redactor module if not exist (in my case - only in backend)
 //        $redactorModule = $this->getModule()->redactorModule;
@@ -53,4 +66,6 @@ class Bootstrap implements BootstrapInterface
 //        }
         \Yii::setAlias('@diazoxide', \Yii::getAlias('@vendor') . '/diazoxide');
     }
+
+
 }

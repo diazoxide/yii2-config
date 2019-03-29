@@ -11,3 +11,5 @@ use yii\helpers\Html;
 
 $this->title = Module::t('Config Module');
 echo Html::tag('h1', $this->title);
+
+echo Yii::$app->id;

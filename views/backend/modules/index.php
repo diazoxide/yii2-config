@@ -7,6 +7,7 @@ $this->title = Module::t('Modules');
 echo Html::tag('h1', $this->title);
 
 ?>
+<?= Html::a(Module::t('Create'), ['modules/create'],['class'=>'btn btn-danger']) ?>
 <?= /** @var \yii\data\ActiveDataProvider $dataProvider */
 \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,

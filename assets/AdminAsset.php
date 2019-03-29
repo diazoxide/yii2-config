@@ -7,7 +7,9 @@
 
 namespace diazoxide\yii2config\assets;
 
+use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 class AdminAsset extends AssetBundle
 {
@@ -15,11 +17,12 @@ class AdminAsset extends AssetBundle
 
     public $baseUrl = '@web';
 
-    public $css = [];
-
     public $js = [
+//        'js/tooltip.js'
     ];
+
     public $depends = [
-        \yii\bootstrap\BootstrapAsset::class,
+        JqueryAsset::class,
+        BootstrapAsset::class,
     ];
 }

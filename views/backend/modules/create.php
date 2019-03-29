@@ -10,7 +10,7 @@ use diazoxide\yii2config\Module;
 /* @var $this yii\web\View */
 
 $this->title = Module::t('Create ') . Module::t('Module');
-$this->params['breadcrumbs'][] = ['label' => Module::t('Modules'), 'url' => ['index']];
+$this->params['breadcrumbs'] = $model->breadcrumbs;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="blog-post-create">
