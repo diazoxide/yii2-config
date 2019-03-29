@@ -31,61 +31,7 @@ class Module extends \yii\base\Module
 
     public $frontendViewPath = '@vendor/diazoxide/yii2-config/views/frontend';
 
-    public $frontendViewsMap = [];
-
-    public $frontendLayoutMap = [];
-
-    public $frontendTitleMap = [];
-
-    protected $_frontendViewsMap = [
-        'config/default/index' => 'index',
-        'config/default/view' => 'view',
-        'config/default/archive' => 'archive',
-        'config/default/book' => 'viewBook',
-        'config/default/chapter' => 'viewChapter',
-        'config/default/chapter-search' => 'searchBookChapter',
-    ];
-
-    public $urlManager = 'urlManager';
-
-    public $imgFilePath = '@frontend/web/img/congig';
-
-    public $imgFileUrl = '/img/config';
-
-    /** @var ActiveRecord user (for example, 'common\models\User::class' */
-    public $userModel;// = \common\models\User::class;
-
-    /** @var string Primary Key for user table, by default 'id' */
-    public $userPK = 'id';
-
-    /** @var string username uses in view (may be field `username` or `email` or `login`) */
-    public $userName = 'username';
-
-
     protected $_isBackend;
-
-    /**
-     * @return mixed|string
-     */
-    public function getView()
-    {
-        $route = Yii::$app->controller->route;
-
-        if ($this->getIsBackend() !== true) {
-
-            if (isset($this->frontendViewsMap[$route])) {
-
-                return $this->frontendViewsMap[$route];
-
-            } elseif (isset($this->_frontendViewsMap[$route])) {
-
-                return $this->_frontendViewsMap[$route];
-
-            }
-        }
-        throw new ViewNotFoundException('The view file does not exist.');
-    }
-
 
     public function init()
     {
@@ -125,17 +71,10 @@ class Module extends \yii\base\Module
         return $this->_isBackend;
     }
 
-    /**
-     * Need correct Full IMG URL for Backend
-     *
-     * @return string
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getImgFullPathUrl()
-    {
-        return \Yii::$app->get($this->urlManager)->getHostInfo() . $this->imgFileUrl;
-    }
 
+    /**
+     * @return array
+     */
     public function getNavigation()
     {
         $items = [
@@ -161,6 +100,9 @@ class Module extends \yii\base\Module
     }
 
 
+    /**
+     * @return string
+     */
     public function getHomeUrl()
     {
 
@@ -171,6 +113,9 @@ class Module extends \yii\base\Module
 
     }
 
+    /**
+     * @return array
+     */
     public static function getBreadcrumbs()
     {
         $result = [];
