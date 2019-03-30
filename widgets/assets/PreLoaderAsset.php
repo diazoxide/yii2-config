@@ -11,7 +11,7 @@ use yii\web\AssetBundle;
 
 class PreLoaderAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/diazoxide/yii2-config/assets';
+    public $sourcePath = '@vendor/diazoxide/yii2-config/widgets/assets/preloader';
 
     public $baseUrl = '@web';
 
