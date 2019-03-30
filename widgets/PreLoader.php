@@ -11,7 +11,7 @@ namespace diazoxide\yii2config\widgets;
 
 use yii\base\Widget;
 
-class Preloader extends Widget
+class PreLoader extends Widget
 {
 
     public $loading_image_url;
