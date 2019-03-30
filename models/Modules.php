@@ -18,6 +18,8 @@ use ReflectionProperty;
  * @property string $namespace
  * @property boolean $status
  * @property boolean $is_bootstrap
+ * @property string $bootstrap_namespace
+ * @property string $bootstrap_method
  * @property ModulesOptions[] options
  */
 class Modules extends \yii\db\ActiveRecord
@@ -52,8 +54,8 @@ class Modules extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'namespace', 'status'], 'required'],
-            [['name', 'namespace'], 'string', 'max' => 255],
-            [['namespace'], NamespaceValidator::class],
+            [['name', 'namespace','bootstrap_namespace','bootstrap_method'], 'string', 'max' => 255],
+            [['namespace','bootstrap_namespace'], NamespaceValidator::class],
             [['is_bootstrap', 'status'], 'boolean'],
         ];
     }
@@ -68,6 +70,7 @@ class Modules extends \yii\db\ActiveRecord
             'id' => Module::t('ID'),
             'name' => Module::t('Name'),
             'namespace' => Module::t('Namespace'),
+            'bootstrap_namespace' => Module::t('Bootstrap Namespace'),
             'is_bootstrap' => Module::t('Is Bootstrap'),
         ];
     }

@@ -48,9 +48,9 @@ class Bootstrap implements BootstrapInterface
             if (!$app->hasModule($module->name)) {
                 $app->setModule($module->name, $module->getConfig($app->id));
                 if($module->is_bootstrap){
-                    $app->getModule($module->name)->bootstrap($app);
+                    $bootstrap = new $module->bootstrap_namespace;
+                    $bootstrap->{$module->bootstrap_method}($app);
                 }
-
             }
         }
 //        // Add redactor module if not exist (in my case - only in backend)
