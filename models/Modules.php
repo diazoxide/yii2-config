@@ -14,6 +14,7 @@ use ReflectionProperty;
 
 /**
  * @property string $id
+ * @property int $type
  * @property string $name
  * @property string $namespace
  * @property boolean $status
@@ -28,6 +29,10 @@ class Modules extends \yii\db\ActiveRecord
     const STATUS_ENABLED = true;
     const STATUS_DISABLED = false;
 
+
+    const TYPE_MODULE = 1;
+    const TYPE_COMPONENT = 2;
+
     /**
      * @return array
      */
@@ -36,6 +41,14 @@ class Modules extends \yii\db\ActiveRecord
         return [
             self::STATUS_ENABLED => Module::t('Enabled'),
             self::STATUS_DISABLED => Module::t('Disabled'),
+        ];
+    }
+
+    public static function getTypeList()
+    {
+        return [
+            self::TYPE_MODULE => Module::t('Module'),
+            self::TYPE_COMPONENT => Module::t('Component'),
         ];
     }
 
@@ -53,10 +66,11 @@ class Modules extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'namespace', 'status'], 'required'],
-            [['name', 'namespace','bootstrap_namespace','bootstrap_method'], 'string', 'max' => 255],
+            [['name', 'status','namespace'], 'required'],
+            [['name', 'bootstrap_method'], 'string', 'max' => 255],
             [['namespace','bootstrap_namespace'], NamespaceValidator::class],
             [['is_bootstrap', 'status'], 'boolean'],
+            [['type'], 'integer'],
         ];
     }
 
@@ -72,6 +86,7 @@ class Modules extends \yii\db\ActiveRecord
             'namespace' => Module::t('Namespace'),
             'bootstrap_namespace' => Module::t('Bootstrap Namespace'),
             'is_bootstrap' => Module::t('Is Bootstrap'),
+            'type' => Module::t('Type'),
         ];
     }
 

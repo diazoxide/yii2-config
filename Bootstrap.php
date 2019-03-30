@@ -5,32 +5,21 @@ namespace diazoxide\yii2config;
 use diazoxide\yii2config\models\Modules;
 use yii\base\BootstrapInterface;
 use yii\i18n\PhpMessageSource;
+use yii\web\Application;
 
 /**
  * Blogs module bootstrap class.
  */
 class Bootstrap implements BootstrapInterface
 {
+    protected $modules = [];
+    protected $components = [];
+
     /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
-        // Add module URL rules.
-//        $app->getUrlManager()->addRules(
-//            [
-//                '/category/<slug>' => '/blog/default/archive',
-//                '/archive' => '/blog/default/archive',
-//                [
-//                    'pattern' => '<year:\d{4}>/<month:\d{2}>/<day:\d{2}>/<slug>',
-//                    'route' => '/blog/default/view',
-//                    'suffix' => '/'
-//                ],
-//                //Fixing old posts issue
-//                '/archives/<id:\d+>' => '/site/old-post',
-//            ]
-//        );
-
         // Add module I18N category.
         if (!isset($app->i18n->translations['diazoxide/yii2config'])) {
             $app->i18n->translations['diazoxide/yii2config'] = [
@@ -45,27 +34,28 @@ class Bootstrap implements BootstrapInterface
 
         $modules = Modules::findAll(['status' => Modules::STATUS_ENABLED]);
         foreach ($modules as $module) {
-            if (!$app->hasModule($module->name)) {
-                $app->setModule($module->name, $module->getConfig($app->id));
-                if($module->is_bootstrap){
-                    $bootstrap = new $module->bootstrap_namespace;
-                    $bootstrap->{$module->bootstrap_method}($app);
-                }
+
+            switch ($module->type) {
+                case Modules::TYPE_MODULE:
+                    if (!$app->hasModule($module->name)) {
+                        $this->modules[$module->name] = $module->getConfig($app->id);
+                        if ($module->is_bootstrap) {
+                            $bootstrap = new $module->bootstrap_namespace;
+                            $bootstrap->{$module->bootstrap_method}($app);
+                        }
+                    }
+                    break;
+                case Modules::TYPE_COMPONENT:
+                    $this->components[$module->name] = $module->getConfig($app->id);
+                    break;
             }
+
         }
-//        // Add redactor module if not exist (in my case - only in backend)
-//        $redactorModule = $this->getModule()->redactorModule;
-//        if ($this->getModule()->getIsBackend() && !$app->hasModule($redactorModule)) {
-//            $app->setModule($redactorModule, [
-//                'class' => 'yii\redactor\RedactorModule',
-//                'imageUploadRoute' => ['/blog/upload/image'],
-//                'uploadDir' => $this->getModule()->imgFilePath . '/upload/',
-//                'uploadUrl' => $this->getModule()->getImgFullPathUrl() . '/upload',
-//                'imageAllowExtensions' => ['jpg', 'png', 'gif', 'svg']
-//            ]);
-//        }
+
+        $app->setComponents($this->components);
+        $app->setModules($this->modules);
+
+
         \Yii::setAlias('@diazoxide', \Yii::getAlias('@vendor') . '/diazoxide');
     }
-
-
 }

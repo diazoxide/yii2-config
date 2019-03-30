@@ -16,11 +16,18 @@ echo Html::tag('h1', $this->title);
         'name',
         'namespace',
         [
+            'attribute' => 'type',
+            'value' => function ($model) {
+                return \diazoxide\yii2config\models\Modules::getTypeList()[$model->type];
+            }
+        ],
+        [
             'attribute' => 'status',
             'value' => function ($model) {
                 return \diazoxide\yii2config\models\Modules::getStatusList()[$model->status];
             }
         ],
+
         ['class' => 'yii\grid\ActionColumn'],
     ],
 ]); ?>

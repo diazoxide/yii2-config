@@ -27,6 +27,7 @@ use \diazoxide\yii2config\Module;
     <?= $form->field($model, 'is_bootstrap')->dropDownList([false => Module::t('No'), true => Module::t('Yes')]) ?>
     <?= $form->field($model, 'bootstrap_namespace')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'bootstrap_method')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'type')->dropDownList(\diazoxide\yii2config\models\Modules::getTypeList(),['prompt'=>Module::t('Select Type')]) ?>
     <?= $form->field($model, 'status')->dropDownList(\diazoxide\yii2config\models\Modules::getStatusList()) ?>
 
     <?= Html::submitButton($model->isNewRecord ? Module::t('Create') : Module::t('Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-warning']) ?>
