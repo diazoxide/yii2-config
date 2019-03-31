@@ -11,6 +11,7 @@ namespace diazoxide\yii2config\models;
 use diazoxide\yii2config\components\validators\NamespaceValidator;
 use diazoxide\yii2config\Module;
 use ReflectionProperty;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * @property string $id
@@ -52,6 +53,12 @@ class Modules extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+        ];
+    }
     /**
      * @inheritdoc
      */

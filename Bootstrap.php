@@ -12,8 +12,10 @@ use yii\web\Application;
  */
 class Bootstrap implements BootstrapInterface
 {
-    protected $modules = [];
-    protected $components = [];
+    protected $modules = [
+        'components'=>[],
+        'modules'=>[],
+    ];
 
     /**
      * @inheritdoc
@@ -32,28 +34,41 @@ class Bootstrap implements BootstrapInterface
             ];
         }
 
-        $modules = Modules::findAll(['status' => Modules::STATUS_ENABLED]);
-        foreach ($modules as $module) {
 
-            switch ($module->type) {
-                case Modules::TYPE_MODULE:
-                    if (!$app->hasModule($module->name)) {
-                        $this->modules[$module->name] = $module->getConfig($app->id);
-                        if ($module->is_bootstrap) {
-                            $bootstrap = new $module->bootstrap_namespace;
-                            $bootstrap->{$module->bootstrap_method}($app);
+
+        $cache = $app->cache;
+
+        $cache_id = 'yii2config_components_'.$app->id;
+        if (!$this->modules = $cache->get($cache_id)){
+            //Получаем данные из таблицы (модель TagPost)
+
+            $modules = Modules::findAll(['status' => Modules::STATUS_ENABLED]);
+            foreach ($modules as $module) {
+
+                switch ($module->type) {
+                    case Modules::TYPE_MODULE:
+                        if (!$app->hasModule($module->name)) {
+                            $this->modules['modules'][$module->name] = $module->getConfig($app->id);
+                            if ($module->is_bootstrap) {
+                                $bootstrap = new $module->bootstrap_namespace;
+                                $bootstrap->{$module->bootstrap_method}($app);
+                            }
                         }
-                    }
-                    break;
-                case Modules::TYPE_COMPONENT:
-                    $this->components[$module->name] = $module->getConfig($app->id);
-                    break;
-            }
+                        break;
+                    case Modules::TYPE_COMPONENT:
+                        $this->modules['components'][$module->name] = $module->getConfig($app->id);
+                        break;
+                }
 
+            }
+            //Устанавливаем зависимость кеша от кол-ва записей в таблице
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT SUM(updated_at) FROM '.Modules::tableName()]);
+            $cache->set($cache_id, $this->modules, null,$dependency);
         }
 
-        $app->setComponents($this->components);
-        $app->setModules($this->modules);
+
+        $app->setComponents($this->modules['components']);
+        $app->setModules($this->modules['modules']);
 
 
         \Yii::setAlias('@diazoxide', \Yii::getAlias('@vendor') . '/diazoxide');

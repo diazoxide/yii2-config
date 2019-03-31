@@ -9,6 +9,7 @@ namespace diazoxide\yii2config\models;
 
 use diazoxide\yii2config\Module;
 use paulzi\adjacencyList\AdjacencyListBehavior;
+use yii\behaviors\TimestampBehavior;
 
 
 /**
@@ -52,6 +53,7 @@ class ModulesOptions extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
+            TimestampBehavior::class,
             [
                 'class' => AdjacencyListBehavior::class,
                 'sortable' => [
