@@ -67,9 +67,12 @@ class Bootstrap implements BootstrapInterface
         }
 
 
-        $app->setComponents($this->modules['components']);
-        $app->setModules($this->modules['modules']);
-
+        if(isset($this->modules['components'])) {
+            $app->setComponents($this->modules['components']);
+        }
+        if(isset($this->modules['modules'])) {
+            $app->setModules($this->modules['modules']);
+        }
 
         \Yii::setAlias('@diazoxide', \Yii::getAlias('@vendor') . '/diazoxide');
     }
