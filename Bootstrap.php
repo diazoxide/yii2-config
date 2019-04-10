@@ -13,8 +13,8 @@ use yii\web\Application;
 class Bootstrap implements BootstrapInterface
 {
     protected $modules = [
-        'components'=>[],
-        'modules'=>[],
+        'components' => [],
+        'modules' => [],
     ];
 
     /**
@@ -34,15 +34,12 @@ class Bootstrap implements BootstrapInterface
             ];
         }
 
-
-
         $cache = $app->cache;
 
-        $cache_id = 'yii2config_components_'.$app->id;
-        if (!$this->modules = $cache->get($cache_id)){
-            //Получаем данные из таблицы (модель TagPost)
+        $cache_id = 'yii2config_components_' . $app->id;
+        if (!$this->modules = $cache->get($cache_id)) {
 
-            $modules = Modules::findAll(['status' => Modules::STATUS_ENABLED]);
+            $modules = Modules::find()->where(['status' => Modules::STATUS_ENABLED])->orderBy(['priority' => SORT_ASC])->all();
             foreach ($modules as $module) {
 
                 switch ($module->type) {
@@ -62,15 +59,15 @@ class Bootstrap implements BootstrapInterface
 
             }
             //Устанавливаем зависимость кеша от кол-ва записей в таблице
-            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT SUM(updated_at) FROM '.Modules::tableName()]);
-            $cache->set($cache_id, $this->modules, null,$dependency);
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT SUM(updated_at) FROM ' . Modules::tableName()]);
+            $cache->set($cache_id, $this->modules, null, $dependency);
         }
 
 
-        if(isset($this->modules['components'])) {
+        if (isset($this->modules['components'])) {
             $app->setComponents($this->modules['components']);
         }
-        if(isset($this->modules['modules'])) {
+        if (isset($this->modules['modules'])) {
             $app->setModules($this->modules['modules']);
         }
 

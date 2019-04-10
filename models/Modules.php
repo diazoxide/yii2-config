@@ -77,7 +77,7 @@ class Modules extends \yii\db\ActiveRecord
             [['name', 'bootstrap_method'], 'string', 'max' => 255],
             [['namespace','bootstrap_namespace'], NamespaceValidator::class],
             [['is_bootstrap', 'status'], 'boolean'],
-            [['type'], 'integer'],
+            [['type','priority'], 'integer'],
         ];
     }
 
@@ -94,6 +94,7 @@ class Modules extends \yii\db\ActiveRecord
             'bootstrap_namespace' => Module::t('Bootstrap Namespace'),
             'is_bootstrap' => Module::t('Is Bootstrap'),
             'type' => Module::t('Type'),
+            'priority' => Module::t('Priority'),
         ];
     }
 
