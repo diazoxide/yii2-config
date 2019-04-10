@@ -34,11 +34,14 @@ class Bootstrap implements BootstrapInterface
             ];
         }
 
+        if($app->db->schema->getTableSchema(Modules::tableName()) == null){
+            return;
+        }
+
         $cache = $app->cache;
 
         $cache_id = 'yii2config_components_' . $app->id;
         if (!$this->modules = $cache->get($cache_id)) {
-
             $modules = Modules::find()->where(['status' => Modules::STATUS_ENABLED])->orderBy(['priority' => SORT_ASC])->all();
             foreach ($modules as $module) {
 
