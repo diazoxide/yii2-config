@@ -25,4 +25,14 @@ class DefaultController extends Controller
 
         return $this->render('index');
     }
+
+    public function actionClearCache()
+    {
+
+        Yii::$app->cache->flush();
+
+        Yii::$app->session->setFlash('success', Module::t('Cache successfully cleared.'));
+
+        $this->redirect(Yii::$app->request->referrer);
+    }
 }

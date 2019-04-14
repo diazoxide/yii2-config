@@ -81,6 +81,7 @@ class Module extends \yii\base\Module
             [
                 'label' => Module::t('Config'),
                 'items' => [
+                    ['label' => Module::t('Dashboard'), 'url' => ['/'.$this->id.'/default/index']],
                     ['label' => Module::t('Modules'), 'url' => ['/'.$this->id.'/modules/index']],
                 ]
             ]
