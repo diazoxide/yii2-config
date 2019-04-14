@@ -11,8 +11,7 @@ use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\assets\AppAsset;
 use diazoxide\yii2config\models\Modules;
 use Yii;
-use yii\base\ViewNotFoundException;
-use yii\db\ActiveRecord;
+
 
 /**
  * @property array breadcrumbs
