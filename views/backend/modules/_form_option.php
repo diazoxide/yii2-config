@@ -23,10 +23,19 @@ use \diazoxide\yii2config\Module;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'type_id')->dropDownList($model::getTypesList(), ['prompt' => Module::t('Select Property Type')]) ?>
-
     <?php
-    switch ($model->type) {
+    $options = [
+        'prompt' => Module::t('Select Property Type'),
+        'onclick' => new \yii\web\JsExpression('this.removeAttribute("readonly")')
+    ];
+
+    if ($model->type) {
+        $options['readonly'] = 'readonly';
+    }
+
+    echo $form->field($model, 'type_id')->dropDownList($model::getTypesList(), $options) ?>
+
+    <?php switch ($model->type) {
         case $model::TYPE_INTEGER:
             echo $form->field($model, 'value')->textInput(['type' => 'number']);
             break;
@@ -39,12 +48,23 @@ use \diazoxide\yii2config\Module;
         case $model::TYPE_BOOLEAN:
             echo $form->field($model, 'value')->dropDownList([false => Module::t('No'), true => Module::t('Yes')]);
             break;
+        case $model::TYPE_TEXT_CSS:
+            echo $form->field($model, 'value')->widget(trntv\aceeditor\AceEditor::class, ['mode' => 'css', 'theme' => 'github']);
+            break;
+        case $model::TYPE_TEXT_JS:
+            echo $form->field($model, 'value')->widget(trntv\aceeditor\AceEditor::class, ['mode' => 'javascript', 'theme' => 'github']);
+            break;
+        case $model::TYPE_TEXT_HTML:
+            echo $form->field($model, 'value')->widget(trntv\aceeditor\AceEditor::class, ['mode' => 'html', 'theme' => 'github']);
+            break;
+        case $model::TYPE_TEXT_HTML_RICH:
+            echo $form->field($model, 'value')->widget(trntv\aceeditor\AceEditor::class, ['mode' => 'html', 'theme' => 'github']);
+            break;
         default:
             echo $form->field($model, 'value')->textInput(['maxlength' => 255]);
             break;
-    }
 
-    ?>
+    } ?>
     <?= $form->field($model, 'app_id')->dropDownList($this->context->module->app_ids, ['prompt' => Module::t('Common')]) ?>
     <?= $form->field($model, 'is_object')->dropDownList([false => Module::t('No'), true => Module::t('Yes')]) ?>
 

@@ -35,6 +35,10 @@ class ModulesOptions extends \yii\db\ActiveRecord
     const TYPE_INTEGER = 2;
     const TYPE_TEXT = 3;
     const TYPE_BOOLEAN = 4;
+    const TYPE_TEXT_CSS = 5;
+    const TYPE_TEXT_JS = 6;
+    const TYPE_TEXT_HTML = 7;
+    const TYPE_TEXT_HTML_RICH = 8;
 
     /**
      * @inheritdoc
@@ -146,6 +150,10 @@ class ModulesOptions extends \yii\db\ActiveRecord
             self::TYPE_INTEGER => 'Integer',
             self::TYPE_TEXT => 'Text',
             self::TYPE_BOOLEAN => 'Boolean',
+            self::TYPE_TEXT_CSS => 'CSS Code',
+            self::TYPE_TEXT_JS => 'JavaScript Code',
+            self::TYPE_TEXT_HTML => 'HTML Code',
+            self::TYPE_TEXT_HTML_RICH => 'Rich HTML Code',
         ];
     }
 
@@ -153,9 +161,9 @@ class ModulesOptions extends \yii\db\ActiveRecord
     {
         if ($this->type_id) {
             return $this->type_id;
-        } elseif($this->parent) {
+        } elseif ($this->parent) {
             return $this->parent->type;
-        } else{
+        } else {
             return null;
         }
     }
