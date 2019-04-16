@@ -18,11 +18,10 @@ use yii\helpers\Url;
     function rec($options)
     {
         foreach ($options as $option) {
-            echo Html::beginTag('li',['class'=>'top-buffer-10-xs']);
+            echo Html::beginTag('li', ['class' => 'top-buffer-10-xs']);
 
 
             $app_name = $option->app_id ? $option->app_id : Module::t('Common');
-
 
             echo Html::beginTag('span', ['class' => 'btn-group ']);
             echo Html::a($option->name, ['option-update', 'id' => $option->id], [
@@ -34,7 +33,6 @@ use yii\helpers\Url;
             echo Html::a('<i class="fa fa-pencil"></i>', ['option-update', 'id' => $option->id], ['class' => 'btn btn-warning btn-xs', 'title' => Module::t('Update Option')]);
             echo Html::a('<i class="fa fa-remove"></i>', ['option-delete', 'id' => $option->id], ['class' => 'btn btn-danger btn-xs', 'title' => Module::t('Delete Option'), 'data-confirm' => Module::t('Are you sure you want to delete this item?'), 'data-method' => 'post', 'data-pjax' => 0]);
             echo Html::endTag('span');
-
 
             $children = $option->getChildren()->all();
             if ($children) {
