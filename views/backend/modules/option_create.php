@@ -5,10 +5,11 @@
  * Copyright (c) 2018.
  */
 
+use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\Module;
-use yii\grid\GridView;
-use yii\helpers\Html;
-use yii\helpers\Url;
+
+AdminAsset::register($this);
+
 
 /* @var $this yii\web\View */
 

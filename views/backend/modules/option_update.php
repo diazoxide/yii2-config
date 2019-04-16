@@ -5,11 +5,11 @@
  * Copyright (c) 2018.
  */
 
+use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\Module;
-use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
+
+AdminAsset::register($this);
 
 /* @var $this yii\web\View */
 
@@ -24,13 +24,15 @@ $this->params['breadcrumbs'][] = ['label' => $model->name];
         'model' => $model,
     ]) ?>
 
-    <h3><?= Module::t('Options') ?></h3>
-    <p><?= Html::a(Module::t('Create'), ['option-create', 'id' => $model->module_id, 'parent_id' => $model->id],['class'=>'btn btn-success']); ?></p>
-    <?php
-    echo $this->render('_options', [
-        'model' => $model,
-        'options' => $model->getOptions(),
-    ]); ?>
+    <?php if ($model->is_object): ?>
+        <h3><?= Module::t('Options') ?></h3>
+        <p><?= Html::a(Module::t('Create'), ['option-create', 'id' => $model->module_id, 'parent_id' => $model->id], ['class' => 'btn btn-success']); ?></p>
+        <?php
+        echo $this->render('_options', [
+            'model' => $model,
+            'options' => $model->getOptions(),
+        ]); ?>
+    <?php endif; ?>
 
 </div>
 

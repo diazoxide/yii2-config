@@ -7,8 +7,6 @@
 
 namespace diazoxide\yii2config;
 
-use diazoxide\yii2config\assets\AdminAsset;
-use diazoxide\yii2config\assets\AppAsset;
 use diazoxide\yii2config\models\Modules;
 use Yii;
 
@@ -18,11 +16,7 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {
-    public $app_ids = [
-        'admin' => "Admin",
-        'public' => "Public",
-        'console' => "Console"
-    ];
+    public $app_ids = [];
 
     public $controllerNamespace = 'diazoxide\yii2config\controllers\frontend';
 
@@ -37,10 +31,8 @@ class Module extends \yii\base\Module
         parent::init();
         if ($this->getIsBackend() === true) {
             $this->setViewPath($this->backendViewPath);
-            AdminAsset::register(Yii::$app->view);
         } else {
             $this->setViewPath($this->frontendViewPath);
-            AppAsset::register(Yii::$app->view);
         }
     }
 
@@ -80,8 +72,8 @@ class Module extends \yii\base\Module
             [
                 'label' => Module::t('Config'),
                 'items' => [
-                    ['label' => Module::t('Dashboard'), 'url' => ['/'.$this->id.'/default/index']],
-                    ['label' => Module::t('Modules'), 'url' => ['/'.$this->id.'/modules/index']],
+                    ['label' => Module::t('Dashboard'), 'url' => ['/' . $this->id . '/default/index']],
+                    ['label' => Module::t('Modules'), 'url' => ['/' . $this->id . '/modules/index']],
                 ]
             ]
         ];

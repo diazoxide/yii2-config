@@ -34,7 +34,9 @@ class Bootstrap implements BootstrapInterface
             ];
         }
 
-        if($app->db->schema->getTableSchema(Modules::tableName()) == null){
+        $config = $app->getModule('config');
+
+        if ($app->db->schema->getTableSchema(Modules::tableName()) == null || !array_key_exists($app->id, $config->app_ids)) {
             return;
         }
 
@@ -61,7 +63,6 @@ class Bootstrap implements BootstrapInterface
                 }
 
             }
-            //Устанавливаем зависимость кеша от кол-ва записей в таблице
             $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT SUM(updated_at) FROM ' . Modules::tableName()]);
             $cache->set($cache_id, $this->modules, null, $dependency);
         }

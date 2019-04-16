@@ -5,7 +5,10 @@
  * Copyright (c) 2018.
  */
 
+use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\Module;
+
+AdminAsset::register($this);
 
 /* @var $this yii\web\View */
 

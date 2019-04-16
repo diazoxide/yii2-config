@@ -1,7 +1,10 @@
 <?php
 
+use diazoxide\yii2config\assets\AdminAsset;
 use diazoxide\yii2config\Module;
 use yii\helpers\Html;
+
+AdminAsset::register($this);
 
 $this->title = Module::t('Modules');
 echo Html::tag('h1', $this->title);

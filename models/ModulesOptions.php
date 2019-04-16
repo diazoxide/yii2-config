@@ -10,12 +10,15 @@ namespace diazoxide\yii2config\models;
 use diazoxide\yii2config\Module;
 use paulzi\adjacencyList\AdjacencyListBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\bootstrap\Progress;
 
 
 /**
  * @property string $id
  * @property string $name
  * @property int $parent_id
+ * @property int $type_id
+ * @property int $type
  * @property int $app_id
  * @property int $module_id
  * @property ModulesOptions parent
@@ -27,6 +30,11 @@ use yii\behaviors\TimestampBehavior;
  */
 class ModulesOptions extends \yii\db\ActiveRecord
 {
+
+    const TYPE_STRING = 1;
+    const TYPE_INTEGER = 2;
+    const TYPE_TEXT = 3;
+    const TYPE_BOOLEAN = 4;
 
     /**
      * @inheritdoc
@@ -43,7 +51,7 @@ class ModulesOptions extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'module_id'], 'required'],
-            [['parent_id', 'module_id'], 'integer'],
+            [['parent_id', 'module_id', 'type_id'], 'integer'],
             [['name', 'app_id'], 'string', 'max' => 255],
             [['value'], 'string'],
             [['is_object'], 'boolean'],
@@ -129,6 +137,27 @@ class ModulesOptions extends \yii\db\ActiveRecord
             $result[] = ['label' => $this->parent->name, 'url' => ['modules/option-update', 'id' => $this->parent_id]];
         }
         return $result;
+    }
+
+    public static function getTypesList()
+    {
+        return [
+            self::TYPE_STRING => 'String',
+            self::TYPE_INTEGER => 'Integer',
+            self::TYPE_TEXT => 'Text',
+            self::TYPE_BOOLEAN => 'Boolean',
+        ];
+    }
+
+    public function getType()
+    {
+        if ($this->type_id) {
+            return $this->type_id;
+        } elseif($this->parent) {
+            return $this->parent->type;
+        } else{
+            return null;
+        }
     }
 
 }
