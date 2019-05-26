@@ -33,6 +33,8 @@ class m100000_000001_config_rules extends Migration
 
     public $roles = [
         ['CONFIG_ADMIN', '"Config" Administrator', [
+            'CONFIG_DEFAULT_INDEX',
+            'CONFIG_DEFAULT_CLEAR_CACHE',
             'CONFIG_MODULES_INDEX',
             'CONFIG_MODULES_VIEW',
             'CONFIG_MODULES_CREATE',
