@@ -22,38 +22,79 @@ class ModulesController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete'        => ['POST'],
                     'option-delete' => ['POST'],
                 ],
             ],
-            /*'access' => [
+            'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'delete', 'create', 'update', 'view', 'create-book', 'update-book', 'delete-book', 'create-book-chapter', 'update-book-chapter', 'delete-book-chapter'],
+                'only'  => [
+                    'index',
+                    'view',
+                    'create',
+                    'update',
+                    'delete',
+                    'options',
+                    'option-create',
+                    'option-update',
+                    'option-delete'
+                ],
                 'rules' => [
                     [
                         'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['BLOG_VIEW_POSTS']
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_INDEX']
                     ],
-
+                    [
+                        'actions' => ['view'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_VIEW']
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_CREATE']
+                    ],
                     [
                         'actions' => ['update'],
-                        'allow' => true,
-                        'matchCallback' => function () {
-                            return Yii::$app->user->can('BLOG_UPDATE_OWN_POST', ['model' => $this->findModel(Yii::$app->request->getQueryParam('id'))])
-                                || Yii::$app->user->can('BLOG_UPDATE_POST');
-                        },
-
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_UPDATE']
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_DELETE']
+                    ],
+                    [
+                        'actions' => ['options'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_OPTIONS']
+                    ],
+                    [
+                        'actions' => ['option-create'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_OPTION_CREATE']
+                    ],
+                    [
+                        'actions' => ['option-update'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_OPTION_UPDATE']
+                    ],
+                    [
+                        'actions' => ['option-delete'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_MODULES_OPTION_DELETE']
                     ],
                 ],
-            ],*/
+            ],
         ];
     }
 
     /**
+     * Show all modules and components
      * @return string
      */
     public function actionIndex()
@@ -61,7 +102,7 @@ class ModulesController extends Controller
         $query = Modules::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query'      => $query,
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -73,6 +114,7 @@ class ModulesController extends Controller
     }
 
     /**
+     * Create new module
      * @return string|\yii\web\Response
      */
     public function actionCreate()
@@ -94,6 +136,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -114,6 +157,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -128,6 +172,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -138,13 +183,14 @@ class ModulesController extends Controller
         $options = $model->getOptions();
 
         return $this->render('options', [
-            'model' => $model,
+            'model'   => $model,
             'options' => $options,
         ]);
     }
 
     /**
      * @param $id
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -163,7 +209,7 @@ class ModulesController extends Controller
         if ($module_id) {
             $model->module_id = $module_id;
         } elseif ($parent_id) {
-            $parent = $this->findOptionModel($parent_id);
+            $parent           = $this->findOptionModel($parent_id);
             $model->parent_id = $parent_id;
             $model->module_id = $parent->module_id;
         } else {
@@ -189,6 +235,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -207,7 +254,7 @@ class ModulesController extends Controller
         $options = $model->getOptions();
 
         return $this->render('option_update', [
-            'model' => $model,
+            'model'   => $model,
             'options' => $options,
         ]);
     }
@@ -215,6 +262,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return Modules|null
      * @throws NotFoundHttpException
      */
@@ -229,6 +277,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return Modules|ModulesOptions|null
      * @throws NotFoundHttpException
      */
@@ -243,6 +292,7 @@ class ModulesController extends Controller
 
     /**
      * @param $id
+     *
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      * @throws \Throwable
@@ -251,12 +301,14 @@ class ModulesController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
 
     }
 
     /**
      * @param $id
+     *
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      * @throws \Throwable
@@ -266,6 +318,7 @@ class ModulesController extends Controller
     {
         $model = $this->findOptionModel($id);
         $model->deleteWithChildren();
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

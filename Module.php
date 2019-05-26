@@ -72,9 +72,20 @@ class Module extends \yii\base\Module
             [
                 'label' => Module::t('Config'),
                 'items' => [
-                    ['label' => Module::t('Dashboard'), 'url' => ['/' . $this->id . '/default/index']],
-                    ['label' => Module::t('Modules'), 'url' => ['/' . $this->id . '/modules/index']],
-                ]
+                    [
+                        'label' => Module::t('Dashboard'),
+                        'url' => ['/' . $this->id . '/default/index'],
+                        'visible' => Yii::$app->user->can("CONFIG_DEFAULT_INDEX")
+
+                    ],
+                    [
+                        'label' => Module::t('Modules'),
+                        'url' => ['/' . $this->id . '/modules/index'],
+                        'visible' => Yii::$app->user->can("CONFIG_MODULES_INDEX")
+                    ],
+                ],
+                'visible' => Yii::$app->user->can("CONFIG_DEFAULT_INDEX") || Yii::$app->user->can("CONFIG_MODULES_INDEX")
+
             ]
         ];
 

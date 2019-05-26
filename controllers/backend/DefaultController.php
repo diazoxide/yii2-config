@@ -9,6 +9,7 @@ namespace diazoxide\yii2config\controllers\backend;
 
 use diazoxide\yii2config\Module;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 /**
@@ -17,6 +18,32 @@ use yii\web\Controller;
  */
 class DefaultController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only'  => [
+                    'index',
+                    'clear-cache',
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_DEFAULT_INDEX']
+                    ],
+                    [
+                        'actions' => ['clear-cache'],
+                        'allow'   => true,
+                        'roles'   => ['CONFIG_DEFAULT_CLEAR_CACHE']
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @return string
      */
