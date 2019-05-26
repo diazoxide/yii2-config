@@ -38,7 +38,6 @@ class m100000_000001_config_rules extends Migration
             'CONFIG_MODULES_CREATE',
             'CONFIG_MODULES_UPDATE',
             'CONFIG_MODULES_DELETE',
-            'CONFIG_MODULES_DELETE',
             'CONFIG_MODULES_OPTIONS',
             'CONFIG_MODULES_OPTION_CREATE',
             'CONFIG_MODULES_OPTION_UPDATE',
